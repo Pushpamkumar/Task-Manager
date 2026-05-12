@@ -39,6 +39,16 @@ const adminMiddleware = (req: any, res: any, next: any) => {
 app.post('/api/auth/register', async (req, res) => {
   try {
     const { name, email, password } = req.body;
+
+    // Strict Validation
+    const nameRegex = /^[a-zA-Z\s]{2,30}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const passRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d\W_]{8,}$/;
+
+    if (!nameRegex.test(name)) return res.status(400).json({ error: 'Name must be 2-30 letters only' });
+    if (!emailRegex.test(email)) return res.status(400).json({ error: 'Invalid email format' });
+    if (!passRegex.test(password)) return res.status(400).json({ error: 'Password must be 8+ characters with at least one letter and one number' });
+
     const existing = await prisma.user.findUnique({ where: { email } });
     if (existing) return res.status(400).json({ error: 'Email already exists' });
 

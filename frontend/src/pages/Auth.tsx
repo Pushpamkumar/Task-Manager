@@ -11,10 +11,41 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
   const [password, setPassword] = useState('password123');
   const [name, setName] = useState('');
   const [error, setError] = useState('');
+  const [passStrength, setPassStrength] = useState({ score: 0, label: '', color: '' });
+
+  const checkPasswordStrength = (pass: string) => {
+    let score = 0;
+    if (pass.length > 7) score++;
+    if (/[A-Z]/.test(pass)) score++;
+    if (/[a-z]/.test(pass)) score++;
+    if (/[0-9]/.test(pass)) score++;
+    if (/[^A-Za-z0-9]/.test(pass)) score++;
+
+    if (pass.length === 0) return { score: 0, label: '', color: '' };
+    if (score < 2) return { score, label: 'Weak', color: 'var(--red)' };
+    if (score < 4) return { score, label: 'Medium', color: 'var(--orange)' };
+    return { score, label: 'Strong', color: 'var(--green)' };
+  };
+
+  const handlePasswordChange = (val: string) => {
+    setPassword(val);
+    setPassStrength(checkPasswordStrength(val));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    if (!isLogin) {
+      const nameRegex = /^[a-zA-Z\s]{2,30}$/;
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const passRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d\W_]{8,}$/;
+
+      if (!nameRegex.test(name)) return setError('Please enter a valid name (2-30 letters only)');
+      if (!emailRegex.test(email)) return setError('Please enter a valid email address');
+      if (!passRegex.test(password)) return setError('Password must be 8+ characters with at least one letter and one number');
+    }
+
     const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
     const body = isLogin ? { email, password } : { name, email, password };
 
@@ -95,7 +126,23 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
             </div>
             <div className="form-group">
               <label>Password</label>
-              <input type="password" required value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" />
+              <input 
+                type="password" 
+                required 
+                value={password} 
+                onChange={e => handlePasswordChange(e.target.value)} 
+                placeholder="••••••••" 
+              />
+              {!isLogin && password.length > 0 && (
+                <div style={{ marginTop: '4px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                    <span style={{ fontSize: '11px', color: 'var(--muted)' }}>Strength: <strong style={{ color: passStrength.color }}>{passStrength.label}</strong></span>
+                  </div>
+                  <div style={{ height: '3px', background: 'var(--border2)', borderRadius: '2px', overflow: 'hidden' }}>
+                    <div style={{ height: '100%', width: `${(passStrength.score / 5) * 100}%`, background: passStrength.color, transition: 'all 0.3s' }}></div>
+                  </div>
+                </div>
+              )}
             </div>
             {/* Role selection removed - defaulting to member */}
             <button type="submit" className="btn btn-primary btn-full">
