@@ -42,7 +42,9 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
       <div className="auth-wrap">
         <div className="auth-left">
           <div className="auth-logo">
-            <div className="auth-logo-icon">⚡</div>
+            <div className="auth-logo-icon">
+              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+            </div>
             <span className="auth-logo-text">TaskFlow</span>
           </div>
           <div className="auth-left-content">
@@ -50,10 +52,22 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
             <p className="auth-sub">A modern project management platform with real-time task tracking, role-based access, and beautiful dashboards.</p>
           </div>
           <div className="auth-badges">
-            <div className="badge">🔐 RBAC</div>
-            <div className="badge">📊 Analytics</div>
-            <div className="badge">⚡ Real-time</div>
-            <div className="badge">📱 Responsive</div>
+            <div className="badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              RBAC
+            </div>
+            <div className="badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+              Analytics
+            </div>
+            <div className="badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path></svg>
+              Real-time
+            </div>
+            <div className="badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+              Responsive
+            </div>
           </div>
         </div>
         <div className="auth-right">

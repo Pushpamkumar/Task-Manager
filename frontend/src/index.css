@@ -101,10 +101,12 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .sidebar-nav{flex:1;padding:16px 12px;display:flex;flex-direction:column;gap:2px}
 .nav-section{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--muted2);padding:12px 8px 6px}
 .nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--radius-sm);cursor:pointer;transition:all .2s;color:var(--muted);font-size:14px;font-weight:500;position:relative;text-decoration:none}
-.nav-item:hover{background:var(--card2);color:var(--text)}
-.nav-item.active{background:var(--accent)18;color:var(--accent)}
-.nav-item.active::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:60%;background:var(--accent);border-radius:0 3px 3px 0}
-.nav-icon{font-size:16px;width:20px;text-align:center}
+.nav-item:hover{background:rgba(232, 255, 71, 0.05);color:var(--accent)}
+.nav-item:hover .nav-icon svg{stroke:var(--accent);transform: scale(1.1)}
+.nav-item.active{background:linear-gradient(90deg, rgba(232, 255, 71, 0.1) 0%, transparent 100%);color:var(--accent)}
+.nav-item.active::before{content:'';position:absolute;left:0;top:15%;height:70%;width:4px;background:var(--accent);border-radius:0 4px 4px 0;box-shadow:0 0 15px var(--accent)}
+.nav-icon{font-size:16px;width:24px;display:flex;align-items:center;justify-content:center;transition:all 0.3s ease}
+.nav-icon svg{transition:all 0.3s ease}
 .nav-badge{margin-left:auto;background:var(--orange);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:100px}
 
 .sidebar-user{padding:16px 12px;border-top:1px solid var(--border)}
