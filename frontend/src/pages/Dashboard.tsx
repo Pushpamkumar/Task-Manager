@@ -127,10 +127,38 @@ export default function Dashboard({ user, searchQuery }: { user: any, searchQuer
         </div>
         
         <div>
-          <div className="section-header"><div className="section-title">Activity Feed</div></div>
+          <div className="section-header"><div className="section-title">Team Distribution</div></div>
+          <div className="table-wrap" style={{ background: 'var(--card)', padding: '20px' }}>
+             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                {Array.from(new Set(tasks.map(t => t.assigneeId))).filter(Boolean).map(userId => {
+                   const uTasks = tasks.filter(t => t.assigneeId === userId);
+                   const uName = projects.flatMap(p => p.members || []).find(m => m.userId === userId)?.user.name || 'User';
+                   const uColor = projects.flatMap(p => p.members || []).find(m => m.userId === userId)?.user.color || 'var(--accent)';
+                   return (
+                      <div key={userId} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: uColor, color: '#000', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 'bold' }}>{uName[0]}</div>
+                            <span style={{ fontSize: '13px', fontWeight: 500 }}>{uName}</span>
+                         </div>
+                         <div style={{ fontSize: '13px', color: 'var(--muted)' }}>
+                            <strong style={{ color: 'var(--text)' }}>{uTasks.length}</strong> tasks
+                         </div>
+                      </div>
+                   )
+                })}
+                {tasks.filter(t => !t.assigneeId).length > 0 && (
+                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', opacity: 0.7 }}>
+                      <span style={{ fontSize: '13px', color: 'var(--muted)' }}>Unassigned</span>
+                      <span style={{ fontSize: '13px' }}><strong>{tasks.filter(t => !t.assigneeId).length}</strong> tasks</span>
+                   </div>
+                )}
+             </div>
+          </div>
+
+          <div className="section-header" style={{ marginTop: '24px' }}><div className="section-title">Activity Feed</div></div>
           <div className="table-wrap" style={{ background: 'var(--card)', padding: '20px' }}>
             <div className="activity-list">
-              {activities.length > 0 ? activities.map(a => (
+              {activities.length > 0 ? activities.slice(0, 5).map(a => (
                 <div key={a.id} className="activity-item" style={{ borderBottom: '1px solid var(--border)', paddingBottom: '12px', marginBottom: '12px' }}>
                   <div className="activity-dot" style={{ background: a.color, width: '8px', height: '8px', marginTop: '6px' }}></div>
                   <div style={{ flex: 1 }}>

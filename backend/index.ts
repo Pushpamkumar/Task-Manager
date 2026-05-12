@@ -252,8 +252,8 @@ app.put('/api/tasks/:id', authMiddleware, async (req: any, res: any) => {
       where: { projectId: existing.projectId, userId: req.user.id }
     });
 
-    if (req.user.role !== 'admin' && existing.assigneeId !== req.user.id && !isMember) {
-      return res.status(403).json({ error: 'Unauthorized to edit this task' });
+    if (req.user.role !== 'admin' && existing.assigneeId !== req.user.id) {
+      return res.status(403).json({ error: 'Unauthorized to edit this task. You can only update tasks assigned to you.' });
     }
 
     const existingTask = await prisma.task.findUnique({ where: { id } });
