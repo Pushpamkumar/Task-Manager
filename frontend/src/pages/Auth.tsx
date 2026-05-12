@@ -49,8 +49,9 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
     const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
     const body = isLogin ? { email, password } : { name, email, password };
 
+    const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
     try {
-      const res = await fetch(`http://localhost:5000${endpoint}`, {
+      const res = await fetch(`${API_BASE}${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)

@@ -86,6 +86,41 @@ TaskFlow is a high-fidelity, full-stack project management application designed 
 
 ---
 
+## 🚀 Deployment on Railway
+
+This project is configured for easy deployment on **Railway** with **PostgreSQL**.
+
+### 1. Push to GitHub
+Ensure your code is pushed to a GitHub repository.
+
+### 2. Connect to Railway
+1. Go to [Railway.app](https://railway.app) and create a new project.
+2. Select **"Deploy from GitHub repo"** and choose this repository.
+3. Railway will detect the `railway.json` and create two services: **backend** and **frontend**.
+
+### 3. Setup PostgreSQL
+1. In your Railway project, click **"New"** → **"Database"** → **"Add PostgreSQL"**.
+2. Railway will automatically inject the `DATABASE_URL` into your environment.
+
+### 4. Configure Environment Variables
+In the **backend** service settings, ensure the following are set:
+- `JWT_SECRET`: A secure random string.
+- `PORT`: 5000 (Railway handles this automatically, but ensure it's mapped).
+
+In the **frontend** service settings, set:
+- `VITE_API_URL`: The URL of your **backend** service (e.g., `https://backend-production-xxx.up.railway.app`).
+
+### 5. Run Migrations
+To initialize the database on Railway:
+1. Open the **backend** service in Railway.
+2. Go to the **"View Logs"** or **"Console"** tab.
+3. Run the following command (one-time):
+   ```bash
+   npx prisma migrate deploy
+   ```
+
+---
+
 ## 👥 Role Definitions
 
 ### 👑 Administrator

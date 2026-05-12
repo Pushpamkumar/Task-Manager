@@ -33,6 +33,9 @@ const adminMiddleware = (req: any, res: any, next: any) => {
   next();
 };
 
+// Health Check
+app.get('/health', (req, res) => res.status(200).send('OK'));
+
 // Routes
 
 // --- Auth ---
