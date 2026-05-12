@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../utils/api';
 
-export default function Projects({ user }: { user: any }) {
+export default function Projects({ user, searchQuery }: { user: any, searchQuery?: string }) {
   const [projects, setProjects] = useState<any[]>([]);
   const [tasks, setTasks] = useState<any[]>([]);
   const [filter, setFilter] = useState('all');
@@ -24,28 +24,39 @@ export default function Projects({ user }: { user: any }) {
     fetchData();
   }, []);
 
-  const filters = ['all', '🚀 Active', '✅ Done'];
+  const filterOptions = [
+    { id: 'all', label: 'All', icon: <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg> },
+    { id: 'active', label: 'Active', icon: <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg> },
+    { id: 'done', label: 'Done', icon: <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12"></polyline></svg> },
+  ];
 
   const filteredProjects = projects.filter(p => {
+    // Search filter
+    if (searchQuery && !p.name.toLowerCase().includes(searchQuery.toLowerCase()) && !p.description.toLowerCase().includes(searchQuery.toLowerCase())) {
+      return false;
+    }
+
+    // Status filter
     if (filter === 'all') return true;
     const ptasks = tasks.filter(t => t.projectId === p.id);
     const pdone = ptasks.filter(t => t.status === 'done').length;
     const isDone = ptasks.length > 0 && pdone === ptasks.length;
-    if (filter === '✅ Done') return isDone;
-    if (filter === '🚀 Active') return !isDone;
+    if (filter === 'done') return isDone;
+    if (filter === 'active') return !isDone;
     return true;
   });
 
   return (
     <div className="view active fade-up">
       <div className="filter-bar">
-        {filters.map((f, i) => (
+        {filterOptions.map((f) => (
           <button 
-            key={i} 
-            className={`filter-chip ${filter === f ? 'active' : ''}`} 
-            onClick={() => setFilter(f)}
+            key={f.id} 
+            className={`filter-chip ${filter === f.id ? 'active' : ''}`} 
+            onClick={() => setFilter(f.id)}
+            style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
           >
-            {f}
+            {f.icon} {f.label}
           </button>
         ))}
       </div>

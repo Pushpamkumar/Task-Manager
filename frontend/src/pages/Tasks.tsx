@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from '../utils/api';
 
-export default function Tasks({ user }: { user: any }) {
+export default function Tasks({ user, searchQuery }: { user: any, searchQuery?: string }) {
   const [tasks, setTasks] = useState<any[]>([]);
   const [projects, setProjects] = useState<any[]>([]);
   const [filter, setFilter] = useState('all');
@@ -36,6 +36,11 @@ export default function Tasks({ user }: { user: any }) {
   const filterLabels: any = { all: 'All', todo: 'To Do', inprogress: 'In Progress', done: 'Done', overdue: 'Overdue' };
 
   let filteredTasks = tasks.filter(t => user.role === 'admin' || t.assigneeId === user.id);
+  
+  if (searchQuery) {
+    filteredTasks = filteredTasks.filter(t => t.title.toLowerCase().includes(searchQuery.toLowerCase()));
+  }
+
   if (filter === 'overdue') {
     filteredTasks = filteredTasks.filter(t => t.dueDate && new Date(t.dueDate) < new Date() && t.status !== 'done');
   } else if (filter !== 'all') {

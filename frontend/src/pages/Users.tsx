@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from '../utils/api';
 
-export default function Users({ user }: { user: any }) {
+export default function Users({ user, searchQuery }: { user: any, searchQuery?: string }) {
   const [users, setUsers] = useState<any[]>([]);
 
   useEffect(() => {
@@ -18,6 +18,10 @@ export default function Users({ user }: { user: any }) {
     }
   }, [user]);
 
+  const filteredUsers = searchQuery 
+    ? users.filter(u => u.name.toLowerCase().includes(searchQuery.toLowerCase()) || u.email.toLowerCase().includes(searchQuery.toLowerCase()))
+    : users;
+
   const initials = (name: string) => name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
 
   return (
@@ -33,7 +37,7 @@ export default function Users({ user }: { user: any }) {
             </tr>
           </thead>
           <tbody>
-            {users.map(u => (
+            {filteredUsers.map(u => (
               <tr key={u.id}>
                 <td>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>

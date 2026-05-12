@@ -16,6 +16,7 @@ function AppContent() {
   const [user, setUser] = useState<any>(JSON.parse(localStorage.getItem('user') || 'null'));
   const [modalOpen, setModalOpen] = useState<string | null>(null);
   const [selectedTask, setSelectedTask] = useState<any>(null);
+  const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -119,8 +120,15 @@ function AppContent() {
           <div className="topbar-title">{currentTitle}</div>
           <div className="topbar-actions">
             <div className="search-bar">
-              <span style={{ color: 'var(--muted)', fontSize: '14px' }}>🔍</span>
-              <input type="text" placeholder="Search..." />
+              <span style={{ color: 'var(--muted)', display: 'flex', alignItems: 'center' }}>
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              </span>
+              <input 
+                type="text" 
+                placeholder="Search anything..." 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
             </div>
             {(isAdmin || location.pathname === '/tasks' || location.pathname.startsWith('/projects/')) && (
               <button className="btn btn-primary btn-sm" onClick={handleTopbarAction}>{topbarActionText}</button>
@@ -129,12 +137,12 @@ function AppContent() {
         </header>
         <div className="content">
           <Routes>
-            <Route path="/dashboard" element={<Dashboard user={user} token={token} />} />
-            <Route path="/projects" element={<Projects user={user} token={token} />} />
-            <Route path="/projects/:id" element={<ProjectDetail user={user} setModalOpen={setModalOpen} setSelectedTask={setSelectedTask} />} />
-            <Route path="/tasks" element={<Tasks user={user} setModalOpen={setModalOpen} setSelectedTask={setSelectedTask} />} />
-            <Route path="/users" element={isAdmin ? <Users user={user} token={token} /> : <Navigate to="/dashboard" />} />
-            <Route path="/reports" element={isAdmin ? <Reports user={user} token={token} /> : <Navigate to="/dashboard" />} />
+            <Route path="/dashboard" element={<Dashboard user={user} token={token} searchQuery={searchQuery} />} />
+            <Route path="/projects" element={<Projects user={user} token={token} searchQuery={searchQuery} />} />
+            <Route path="/projects/:id" element={<ProjectDetail user={user} setModalOpen={setModalOpen} setSelectedTask={setSelectedTask} searchQuery={searchQuery} />} />
+            <Route path="/tasks" element={<Tasks user={user} setModalOpen={setModalOpen} setSelectedTask={setSelectedTask} searchQuery={searchQuery} />} />
+            <Route path="/users" element={isAdmin ? <Users user={user} token={token} searchQuery={searchQuery} /> : <Navigate to="/dashboard" />} />
+            <Route path="/reports" element={isAdmin ? <Reports user={user} token={token} searchQuery={searchQuery} /> : <Navigate to="/dashboard" />} />
             <Route path="/profile" element={<Profile user={user} token={token} onUpdate={setUser} />} />
             <Route path="*" element={<Navigate to="/dashboard" />} />
           </Routes>

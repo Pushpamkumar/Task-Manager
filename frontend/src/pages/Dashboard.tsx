@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../utils/api';
 
-export default function Dashboard({ user }: { user: any }) {
+export default function Dashboard({ user, searchQuery }: { user: any, searchQuery?: string }) {
   const [projects, setProjects] = useState<any[]>([]);
   const [tasks, setTasks] = useState<any[]>([]);
   const [activities, setActivities] = useState<any[]>([]);
@@ -36,7 +36,9 @@ export default function Dashboard({ user }: { user: any }) {
     { label: 'Overdue', value: overdue.length, cls: 'c-pink' },
   ];
 
-  const recent = projects.slice(0, 4);
+  const recent = searchQuery 
+    ? projects.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 4)
+    : projects.slice(0, 4);
 
   return (
     <div className="view active fade-up">
