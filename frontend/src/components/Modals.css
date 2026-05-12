@@ -1,0 +1,9 @@
+.modal-overlay{position:fixed;inset:0;background:#00000080;backdrop-filter:blur(4px);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:var(--surface);border:1px solid var(--border2);border-radius:20px;width:min(500px,92vw);max-height:88vh;overflow-y:auto;transform:scale(.96);transition:transform .2s;box-shadow:0 40px 100px #000a}
+.modal-overlay.open .modal{transform:scale(1)}
+.modal-header{padding:24px 24px 0;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.modal-title{font-family:var(--font-head);font-size:20px;font-weight:700;letter-spacing:-.3px}
+.modal-close{background:var(--card2);border:none;color:var(--muted);cursor:pointer;width:30px;height:30px;border-radius:8px;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.modal-close:hover{color:var(--text);background:var(--border2)}
+.modal-body{padding:0 24px 24px;display:flex;flex-direction:column;gap:16px}

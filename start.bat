@@ -1,0 +1,6 @@
+@echo off
+echo Installing and starting backend...
+start cmd /k "cd backend && npm install && npx prisma db push && npm run dev"
+
+echo Installing and starting frontend...
+start cmd /k "cd frontend && npm install && npm run dev"
