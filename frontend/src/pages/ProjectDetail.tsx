@@ -123,17 +123,10 @@ export default function ProjectDetail({ user, setModalOpen, setSelectedTask }: {
                           )}
                         </div>
                       </div>
-                      <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid var(--border)', display: 'flex', gap: '8px' }} onClick={(e) => e.stopPropagation()}>
-                        <select 
-                          value={t.status} 
-                          onChange={(e) => updateStatus(t.id, e.target.value)}
-                          className="btn btn-ghost btn-sm"
-                          style={{ flex: 1, padding: '4px 8px', fontSize: '11px', height: 'auto', textAlign: 'left' }}
-                        >
-                          <option value="todo">To Do</option>
-                          <option value="inprogress">In Progress</option>
-                          <option value="done">Done</option>
-                        </select>
+                      <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid var(--border)', display: 'flex', gap: '8px', alignItems: 'center' }} onClick={(e) => e.stopPropagation()}>
+                        <span style={{ fontSize: '11px', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                          Status: <span style={{ color: t.status === 'done' ? 'var(--green)' : t.status === 'inprogress' ? 'var(--amber)' : 'var(--muted)' }}>{t.status.replace('inprogress', 'In Progress')}</span>
+                        </span>
                       </div>
                     </div>
                   );
