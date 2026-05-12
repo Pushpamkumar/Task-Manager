@@ -228,5 +228,3 @@ export default function ProjectDetail({ user, setModalOpen, setSelectedTask, sea
     </div>
   );
 }
-  );
-}
