@@ -380,7 +380,7 @@ async function seedUsers() {
   }
 }
 
-app.listen(PORT, async () => {
+app.listen(PORT, '0.0.0.0', async () => {
   await seedUsers();
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on http://0.0.0.0:${PORT}`);
 });
