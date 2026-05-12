@@ -197,7 +197,7 @@ export default function Modals({ isOpen, onClose, user, onSuccess, selectedTask,
               {user.role === 'admin' && (
                 <div className="form-group"><label>Add Members</label>
                   <div className="member-selection-list" style={{ maxHeight: '150px', overflowY: 'auto', background: 'var(--card)', borderRadius: '8px', padding: '8px', border: '1px solid var(--border2)' }}>
-                    {users.filter(u => u.id !== user.id).map(u => {
+                    {users.filter(u => u.id !== user.id && u.role !== 'admin').map(u => {
                       const isAdded = selectedMembers.includes(u.id);
                       return (
                         <div key={u.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '6px 8px', borderRadius: '6px', background: isAdded ? 'var(--accent)15' : 'transparent', marginBottom: '4px' }}>
