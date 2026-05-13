@@ -42,6 +42,66 @@ TaskFlow is a high-fidelity, full-stack project management application designed 
 
 ---
 
+## 🗄️ Database Schema
+
+TaskFlow uses a robust relational database structure powered by PostgreSQL and Prisma ORM.
+
+```mermaid
+erDiagram
+    USER ||--o{ PROJECT : "owns"
+    USER ||--o{ TASK : "assigned to"
+    USER ||--o{ TASK : "created"
+    USER ||--o{ PROJECT_MEMBER : "has memberships"
+    
+    PROJECT ||--o{ TASK : "contains"
+    PROJECT ||--o{ PROJECT_MEMBER : "has members"
+
+    USER {
+        String id PK
+        String name
+        String email
+        String role "admin | member"
+        String color
+        DateTime joinedAt
+    }
+
+    PROJECT {
+        String id PK
+        String name
+        String description
+        String emoji
+        String color
+        DateTime deadline
+        String ownerId FK
+    }
+
+    PROJECT_MEMBER {
+        String id PK
+        String projectId FK
+        String userId FK
+    }
+
+    TASK {
+        String id PK
+        String title
+        String status "todo | inprogress | done"
+        String priority "low | medium | high"
+        DateTime dueDate
+        String projectId FK
+        String assigneeId FK
+        String creatorId FK
+    }
+
+    ACTIVITY {
+        String id PK
+        String text
+        String color
+        DateTime createdAt
+    }
+```
+
+---
+
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -132,7 +192,7 @@ To initialize the database on Railway:
 ### 👤 Member
 - View assigned projects only.
 - View all tasks within their projects.
-- **Strict Update Rights**: Can only mark their own assigned tasks as "Done" or "In Progress".
+- **Strict Update Rights**: Can only edit task status (Mark Done/In Progress) for tasks assigned by Admins. Can fully edit and delete tasks they created themselves.
 
 ---
 
